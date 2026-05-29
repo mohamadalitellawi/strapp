@@ -86,7 +86,7 @@ Read the guides in order. They take you from nothing to a live website:
 strapp/
 ├── streamlit_app.py        # the start file (run this)
 ├── pyproject.toml          # project settings, dependencies, ruff + ty config
-├── requirements.txt        # used by Streamlit Community Cloud
+├── uv.lock                 # exact pinned versions (cloud installs from this)
 ├── src/strapp/
 │   ├── combinations.py     # the load combination math (no web code)
 │   ├── simulation.py       # the random "what if" study
