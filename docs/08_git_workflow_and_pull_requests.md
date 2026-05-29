@@ -51,7 +51,48 @@ A PR shows exactly what changed, lets people comment, and has a big green button
 to merge. On GitHub, "merge" means "copy my branch's changes into the target
 branch."
 
-## 8.4 Hands-on practice — make one change the proper way
+## 8.4 Which merge button do I pick? (Squash vs. merge commit)
+
+When you merge a pull request on GitHub, it offers a few buttons. The two that
+matter for us are **"Squash and merge"** and **"Create a merge commit."** Picking
+the right one keeps your history clean and your branches healthy.
+
+> **What is "squash"?** Your feature branch might have many small, messy commits
+> ("wip", "fix typo", "oops"). Squash takes them all and turns them into **one**
+> clean commit on the target branch.
+
+Here is the simple rule for this project:
+
+| Merge | Button to use | Why |
+| ----- | ------------- | --- |
+| `feature/xxx` → `develop` | ✅ **Squash and merge** | The feature branch is short-lived. Squashing turns all its little commits into one tidy commit on `develop`. |
+| `develop` → `main` (a release) | ✅ **Create a merge commit** (do **not** squash) | `develop` and `main` live a long time. They must stay in step. |
+
+### Why not squash `develop` into `main`?
+
+Squashing makes a **brand-new commit** with a different ID than the originals.
+That is perfectly fine for a feature branch you are about to delete. But `main`
+and `develop` are kept forever. If you squash `develop` into `main`, git stops
+seeing them as sharing the same history. Over time they **drift apart**, and
+every later release merge looks messier and shows fake conflicts.
+
+So: **squash _into_ `develop`**, but **merge `develop` _into_ `main`** with a
+normal merge commit.
+
+### Two things to do right after a squash merge
+
+1. **Write a clear one-line message** in the GitHub squash box before you click
+   confirm. That single line becomes your `develop` history — make it count.
+2. **Do not keep using the old feature branch.** Its commits are now "orphaned"
+   (they do not match the new squashed commit). Start fresh instead:
+
+   ```bash
+   git switch develop
+   git pull
+   git switch -c feature/next-thing
+   ```
+
+## 8.5 Hands-on practice — make one change the proper way
 
 Let's practice the full loop with a tiny, safe change. Follow along.
 
@@ -119,11 +160,14 @@ gh pr create --base develop --fill
 In a team, a teammate reads your PR and approves it. On your own, you read it
 yourself — actually look at the "Files changed" tab. When happy:
 
-- On the website, click **Merge pull request**, then **Confirm merge**.
+This merge goes into `develop`, so use **squash** (see Section 8.4):
+
+- On the website, click the arrow on the merge button, choose **Squash and
+  merge**, write a clear one-line message, then **Confirm**.
 - Or on the command line:
 
   ```bash
-  gh pr merge --merge --delete-branch
+  gh pr merge --squash --delete-branch
   ```
 
 `--delete-branch` tidies up the finished feature branch for you.
@@ -136,13 +180,18 @@ clean up:
 ```bash
 git switch develop
 git pull
-git branch -d feature/practice-edit    # delete the local branch (already merged)
+git branch -D feature/practice-edit    # delete the local branch
 ```
+
+> **Why `-D` (capital) and not `-d`?** After a **squash** merge, git made a new
+> commit, so it does not see your old branch as "merged" and the safe `-d` will
+> refuse. The capital `-D` says "delete it anyway" — which is correct here,
+> because the work is safely in `develop`.
 
 🎉 You just did the full professional loop: branch → commit → push → PR →
 review → merge → clean up.
 
-## 8.5 Making a release (sending `develop` into `main`)
+## 8.6 Making a release (sending `develop` into `main`)
 
 When `develop` is tested and you are ready to call it "done," you release it by
 merging into the protected `main` branch. Because `main` is protected, this also
@@ -153,8 +202,9 @@ goes through a pull request:
 gh pr create --base main --head develop --title "Release v0.1.0" --fill
 ```
 
-Review it, merge it on GitHub, then mark the release with a **tag** (a label for
-this exact version):
+Review it, then merge it on GitHub with **"Create a merge commit"** — **not**
+squash (see Section 8.4: squashing would make `main` and `develop` drift apart).
+Then mark the release with a **tag** (a label for this exact version):
 
 ```bash
 git switch main
@@ -166,7 +216,7 @@ git push origin v0.1.0  # send the tag to GitHub
 > **What is a tag?** A tag is a permanent bookmark for one commit. `v0.1.0` lets
 > you (and others) find the exact code of that release later.
 
-## 8.6 Quick command cheat sheet
+## 8.7 Quick command cheat sheet
 
 | I want to... | Command |
 | ------------ | ------- |
@@ -179,7 +229,7 @@ git push origin v0.1.0  # send the tag to GitHub
 | Merge my PR and delete the branch | `gh pr merge --merge --delete-branch` |
 | Update my local develop | `git switch develop && git pull` |
 
-## 8.7 Habits that keep you out of trouble
+## 8.8 Habits that keep you out of trouble
 
 - **One branch, one job.** Small branches are easy to review and easy to fix.
 - **Pull before you branch.** Always start from the newest `develop`.
