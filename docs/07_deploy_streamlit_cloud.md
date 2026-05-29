@@ -90,3 +90,9 @@ NumPy, pandas, Plotly, handcalcs, ruff, ty, pytest, git, GitHub, and cloud
 deployment. That is a full, modern Python workflow.
 
 Go back and read any step again whenever you build your next app. Well done!
+
+## One more chapter — practice the team workflow
+
+Want to learn how teams really work together with branches and pull requests?
+There is a bonus, hands-on chapter you can practice on your own:
+[Step 8 — Practice the team workflow](08_git_workflow_and_pull_requests.md).
