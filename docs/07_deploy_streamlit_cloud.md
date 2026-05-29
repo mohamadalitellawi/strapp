@@ -7,27 +7,24 @@ This is the moment your app becomes a real website that anyone can open. We use
 
 - Your code on GitHub (Step 6). ✅
 - The file `streamlit_app.py` at the top of your project. ✅
-- The file `requirements.txt` at the top of your project. ✅
+- The file `uv.lock` at the top of your project (committed by `uv`). ✅
 
-### Why `requirements.txt`?
+### How does the cloud know which libraries to install?
 
-Streamlit Community Cloud reads this file to know which libraries to install. It
-is a simple list:
+Streamlit Community Cloud looks for a dependency file and installs from it
+automatically. Because we commit **`uv.lock`**, the cloud uses that with
+`uv sync` — you will see a line like *"dependencies were installed from
+uv.lock using uv-sync"* in the logs.
 
-```
-streamlit>=1.58.0
-numpy>=2.4.6
-pandas>=3.0.3
-matplotlib>=3.10.9
-plotly>=6.7.0
-handcalcs>=1.11.0
-```
+This is the best outcome: `uv.lock` pins the **exact** versions you tested on
+your own computer, so the live app gets the very same libraries — no surprises.
+You do not maintain a separate list; `uv add` keeps `pyproject.toml` and
+`uv.lock` in step for you.
 
-Keep it in step with the dependencies in `pyproject.toml`.
-
-> **Note:** Streamlit Community Cloud installs from `requirements.txt`, not from
-> `uv.lock`. That is why we keep both. On your own computer you use uv; the cloud
-> uses this simple list.
+> **Note:** older Streamlit tutorials tell you to add a `requirements.txt`. You
+> do **not** need one when you commit `uv.lock` — and having both makes the
+> cloud print a *"more than one requirements file detected"* warning. We use
+> `uv.lock` alone.
 
 ## 7.2 Sign in to Streamlit Community Cloud
 
@@ -73,8 +70,9 @@ in a minute or two. No extra steps.
 
 ## 7.6 If something goes wrong
 
-- **The app shows an error about a missing library.** Check that the library is
-  listed in `requirements.txt`, then push again.
+- **The app shows an error about a missing library.** Add it with
+  `uv add <library>` (this updates `uv.lock`, which the cloud installs from),
+  then commit and push.
 - **The app says it cannot find your code.** Check the **Main file path** is
   `streamlit_app.py` and that this file is at the top of your repo.
 - **You see an old version.** Open the app's menu (top right) and choose

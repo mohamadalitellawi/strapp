@@ -24,8 +24,8 @@ from .simulation import SimulationResult, simulate
 
 # pyproject.toml is the single source of truth for the version. When the package
 # is installed we read it from metadata; when the app runs straight from source
-# (e.g. on Streamlit Community Cloud, where only requirements.txt is installed)
-# we read pyproject.toml directly. Bump with `uv version --bump patch|minor|major`.
+# (the package is on sys.path but was never pip-installed) we fall back to
+# reading pyproject.toml directly. Bump with `uv version --bump patch|minor|major`.
 try:
     __version__ = version("strapp")
 except PackageNotFoundError:
