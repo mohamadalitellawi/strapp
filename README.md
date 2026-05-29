@@ -5,6 +5,8 @@ combinations for structural engineers. It is also a complete, beginner-friendly
 **teaching project**: every step from an empty folder to a live website is
 written down in plain English in the [`docs/`](docs) folder.
 
+**▶️ Try it live:** <https://strapp.streamlit.app>
+
 > ⚠️ **Teaching tool only.** The numbers are simplified. Do **not** use this for
 > a real building. Always check the real ASCE 7 code book and work with a
 > licensed engineer.
@@ -13,7 +15,7 @@ written down in plain English in the [`docs/`](docs) folder.
 
 ## What the app does
 
-The app has two tabs:
+The app has three tabs:
 
 1. **Calculator** — You type your loads (name, type, and size) into a table.
    The app shows every ASCE 7-22 combination, picks the one that **controls the
@@ -24,6 +26,9 @@ The app has two tabs:
    value for each load, and the app makes hundreds of random "what if" cases
    using **NumPy**. For each case it finds the controlling combination, then
    marks the **worst case** on a Plotly chart with an arrow.
+
+3. **About** — A short note on what the app teaches and the library versions it
+   is running.
 
 ## What you will learn
 
