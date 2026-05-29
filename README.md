@@ -77,6 +77,8 @@ Read the guides in order. They take you from nothing to a live website:
 | 7 | [Put the app online](docs/07_deploy_streamlit_cloud.md) |
 | 8 | [Practice the team workflow: branches & pull requests](docs/08_git_workflow_and_pull_requests.md) |
 | 9 | [Life after your first release: bug fixes & features](docs/09_after_release_workflow.md) |
+| A | [Appendix: command cheat sheet (git, uv, gh)](docs/appendix_command_cheat_sheet.md) |
+| B | [Appendix: Streamlit & handcalcs cheat sheet](docs/appendix_streamlit_handcalcs_cheat_sheet.md) |
 
 ## Project layout
 
