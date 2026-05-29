@@ -17,7 +17,7 @@ the steps one at a time.
 
 ## What is the app?
 
-A web page with two tabs:
+A web page with three tabs:
 
 - **Calculator tab.** You type in your building loads (like the weight of the
   floor, the people, the snow, the wind). The app mixes them using code rules
@@ -26,6 +26,9 @@ A web page with two tabs:
 - **Simulation tab.** Real loads are never exact. So the app rolls the dice many
   times, trying many possible load values, and shows you the worst case out of
   all of them. This is a simple version of a "Monte Carlo" study.
+
+- **About tab.** A short note on what the app teaches and which library versions
+  it is running.
 
 ## What is a "load combination"? (very short version)
 

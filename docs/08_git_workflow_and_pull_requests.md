@@ -226,7 +226,7 @@ git push origin v0.1.0  # send the tag to GitHub
 | Save my work | `git add . && git commit -m "..."` |
 | Send my branch to GitHub | `git push -u origin feature/xxx` |
 | Open a PR into develop | `gh pr create --base develop --fill` |
-| Merge my PR and delete the branch | `gh pr merge --merge --delete-branch` |
+| Merge my feature PR and delete the branch | `gh pr merge --squash --delete-branch` |
 | Update my local develop | `git switch develop && git pull` |
 
 ## 8.8 Habits that keep you out of trouble
