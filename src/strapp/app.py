@@ -143,7 +143,7 @@ def _calculator_tab() -> None:
 
     st.write("**The controlling combination, step by step (handcalcs)**")
     latex, _ = render_combination(governing_combo, load_values)
-    st.latex(latex)
+    st.markdown(latex)
 
     st.plotly_chart(combination_bar_chart(table), width="stretch")
 

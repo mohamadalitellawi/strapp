@@ -83,7 +83,7 @@ Python from top to bottom, and it becomes a web page. A few building blocks:
 | `st.radio(...)` | A set of round option buttons. |
 | `st.data_editor(df)` | An editable table (you can add rows!). |
 | `st.dataframe(df)` | A table to look at. |
-| `st.latex(...)` | Pretty math. |
+| `st.markdown("$$...$$")` | Text, and pretty math when wrapped in `$$` fences. |
 | `st.plotly_chart(fig)` | A Plotly chart. |
 | `st.pyplot(fig)` | A matplotlib chart. |
 | `st.download_button(...)` | A button to download a file. |
@@ -105,9 +105,16 @@ with simulation:
 3. Add up the loads by type (`aggregate_loads`).
 4. Work out every recipe (`results_table`).
 5. Find and show the controlling recipe (`governing_combination`).
-6. Draw the controlling recipe with handcalcs (`st.latex`).
+6. Draw the controlling recipe with handcalcs (`st.markdown`).
 7. Draw a Plotly bar chart, with the controlling bar in red.
 8. Offer CSV and JSON download buttons.
+
+> **Why `st.markdown` and not `st.latex` for the handcalcs math?** handcalcs
+> hands back a string already wrapped in `$$ ... $$` math fences. `st.markdown`
+> understands `$$` as "this is a math block" and renders it. `st.latex` is for a
+> *bare* formula — it adds the math part for you — so giving it the `$$`-wrapped
+> string double-wraps it and you just see the raw `\begin{aligned}...` text. Match
+> the tool to the string you actually have.
 
 ### Tab 2 — Simulation (the flow)
 
