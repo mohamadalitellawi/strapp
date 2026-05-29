@@ -51,11 +51,30 @@ uvx --from dist/strapp-0.1.0-py3-none-any.whl strapp
 
 Your package has a version in `pyproject.toml`: `version = "0.1.0"`. When you
 change your code and want to share a new version, raise this number. A common
-rule (called *semantic versioning*):
+rule (called *semantic versioning*) decides which part to raise:
 
-- `0.1.0 -> 0.1.1`: tiny fix.
-- `0.1.0 -> 0.2.0`: new feature, nothing broken.
-- `0.1.0 -> 1.0.0`: a big or breaking change.
+- `0.1.0 -> 0.1.1`: tiny fix. This is a **patch**.
+- `0.1.0 -> 0.2.0`: new feature, nothing broken. This is a **minor** change.
+- `0.1.0 -> 1.0.0`: a big or breaking change. This is a **major** change.
+
+**Do not edit the number by hand.** uv has a command that raises it for you and
+keeps `uv.lock` in step automatically:
+
+```bash
+uv version --bump patch    # 0.1.0 -> 0.1.1  (a tiny fix)
+uv version --bump minor    # 0.1.0 -> 0.2.0  (a new feature)
+uv version --bump major    # 0.1.0 -> 1.0.0  (a breaking change)
+```
+
+> **Tip — check before you leap.** Add `--dry-run` to see the new number without
+> writing it: `uv version --bump minor --dry-run`. Run plain `uv version` any
+> time to print the current one.
+
+> **One source of truth.** The real version lives in `pyproject.toml`. Our code
+> reads it back with `__version__ = version("strapp")` (from Python's
+> `importlib.metadata`) in `src/strapp/__init__.py`, so there is only **one**
+> place to change. That is why `uv version --bump` is all you need — you never
+> edit a version string in the Python files yourself.
 
 ## 5.4 How to publish to PyPI (the steps)
 
