@@ -1,0 +1,61 @@
+[project]
+name = "strapp"
+version = "0.1.0"
+description = "A beginner-friendly Streamlit app that builds ASCE 7-22 structural load combinations."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.13"
+authors = [
+    { name = "mohamadalitellawi", email = "mohamadalitellawi@gmail.com" }
+]
+keywords = ["streamlit", "structural-engineering", "load-combinations", "asce-7", "teaching"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Education",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering",
+]
+license-files = ["LICENSE"]
+dependencies = [
+    "handcalcs>=1.11.0",
+    "matplotlib>=3.10.9",
+    "numpy>=2.4.6",
+    "pandas>=3.0.3",
+    "plotly>=6.7.0",
+    "streamlit>=1.58.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/mohamadalitellawi/strapp"
+Repository = "https://github.com/mohamadalitellawi/strapp"
+
+[project.scripts]
+strapp = "strapp.cli:main"
+
+[build-system]
+requires = ["uv_build>=0.11.17,<0.12.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.3",
+    "ruff>=0.15.15",
+    "ty>=0.0.40",
+]
+
+[tool.ruff]
+# Keep lines readable for juniors; 100 chars is a common, comfortable limit.
+line-length = 100
+target-version = "py313"
+
+[tool.ruff.lint]
+# A friendly starter set of rules:
+# E/W = style errors, F = real bugs (pyflakes), I = import sorting,
+# UP = modern Python syntax, B = common bug patterns, SIM = simpler code.
+select = ["E", "W", "F", "I", "UP", "B", "SIM"]
+
+[tool.ty.environment]
+python-version = "3.13"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

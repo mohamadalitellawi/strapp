@@ -1,0 +1,9 @@
+# Settings for the Streamlit app. These are optional, but they make the app
+# look a little nicer and behave the same for everyone.
+
+[theme]
+primaryColor = "#d62728"
+base = "light"
+
+[browser]
+gatherUsageStats = false
