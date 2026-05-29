@@ -27,8 +27,10 @@ def render_combination(combo: Combination, load_values: Mapping[str, float]) -> 
         load_values: How big each load is, keyed by load letter.
 
     Returns:
-        A ``(latex, total)`` pair. The LaTeX string is ready for
-        ``st.latex(...)``. The total is the numeric answer.
+        A ``(latex, total)`` pair. handcalcs wraps the LaTeX in ``$$ ... $$``
+        math delimiters, so render it with ``st.markdown(...)`` (which treats
+        ``$$`` as a math block), not ``st.latex(...)`` (which expects a bare
+        expression and would show the raw source). The total is the answer.
     """
     factors = combo.factors
     arg_names = ", ".join(factors)
