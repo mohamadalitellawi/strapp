@@ -8,7 +8,9 @@ The pieces:
 * :mod:`strapp.app` - the Streamlit web page.
 """
 
-from importlib.metadata import version
+import tomllib
+from importlib.metadata import PackageNotFoundError, version
+from pathlib import Path
 
 from .combinations import (
     Combination,
@@ -20,9 +22,15 @@ from .combinations import (
 )
 from .simulation import SimulationResult, simulate
 
-# Read the version from the installed package metadata so pyproject.toml stays
-# the single source of truth. Bump it with `uv version --bump patch|minor|major`.
-__version__ = version("strapp")
+# pyproject.toml is the single source of truth for the version. When the package
+# is installed we read it from metadata; when the app runs straight from source
+# (e.g. on Streamlit Community Cloud, where only requirements.txt is installed)
+# we read pyproject.toml directly. Bump with `uv version --bump patch|minor|major`.
+try:
+    __version__ = version("strapp")
+except PackageNotFoundError:
+    _pyproject = Path(__file__).resolve().parents[2] / "pyproject.toml"
+    __version__ = tomllib.loads(_pyproject.read_text(encoding="utf-8"))["project"]["version"]
 
 __all__ = [
     "Combination",
