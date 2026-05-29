@@ -75,6 +75,7 @@ Read the guides in order. They take you from nothing to a live website:
 | 5 | [Build and publish the package](docs/05_build_and_publish_pypi.md) |
 | 6 | [Push to GitHub](docs/06_push_to_github.md) |
 | 7 | [Put the app online](docs/07_deploy_streamlit_cloud.md) |
+| 8 | [Practice the team workflow: branches & pull requests](docs/08_git_workflow_and_pull_requests.md) |
 
 ## Project layout
 
