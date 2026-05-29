@@ -13,6 +13,9 @@ wheels/
 .DS_Store
 **/.DS_Store
 
+# JetBrains IDEs (PyCharm, IntelliJ, etc.)
+.idea/
+
 # Streamlit secrets (never commit secrets)
 .streamlit/secrets.toml
 
