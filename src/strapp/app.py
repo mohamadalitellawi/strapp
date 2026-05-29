@@ -18,6 +18,7 @@ import plotly.graph_objects as go
 import streamlit as st
 from matplotlib.figure import Figure
 
+from . import __version__
 from .combinations import LOAD_TYPES, evaluate_all, governing_combination
 from .handcalc_view import render_combination
 from .simulation import simulate
@@ -329,7 +330,7 @@ def main() -> None:
             "web app, and how American (ASCE 7-22) load combinations work. "
             "The full step-by-step guide lives in the `docs/` folder of the project."
         )
-        st.write(f"NumPy {np.__version__} · pandas {pd.__version__}")
+        st.write(f"strapp {__version__} · NumPy {np.__version__} · pandas {pd.__version__}")
 
 
 if __name__ == "__main__":
