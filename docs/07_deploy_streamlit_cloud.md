@@ -22,9 +22,13 @@ You do not maintain a separate list; `uv add` keeps `pyproject.toml` and
 `uv.lock` in step for you.
 
 > **Note:** older Streamlit tutorials tell you to add a `requirements.txt`. You
-> do **not** need one when you commit `uv.lock` — and having both makes the
-> cloud print a *"more than one requirements file detected"* warning. We use
-> `uv.lock` alone.
+> do **not** need one when you commit `uv.lock`, so we leave it out.
+>
+> You may still see a *"more than one requirements file detected"* warning in the
+> logs. That is **harmless** — the cloud also counts `pyproject.toml` (which every
+> project must have) as a possible dependency file, so the warning cannot be
+> removed entirely. The same log line tells you what it actually used:
+> *"Used: uv-sync with .../uv.lock"*. That is exactly what we want.
 
 ## 7.2 Sign in to Streamlit Community Cloud
 

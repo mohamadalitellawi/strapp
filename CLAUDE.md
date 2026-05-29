@@ -97,8 +97,10 @@ run destructive git commands without confirmation.
 
 Streamlit Community Cloud deploys from `main`, entry `streamlit_app.py`, and
 installs dependencies from **`uv.lock`** via `uv sync`. There is intentionally
-**no `requirements.txt`** — committing both makes the cloud warn about multiple
-dependency files. To add a dependency: `uv add <lib>`, commit, push.
+**no `requirements.txt`**. The cloud still prints a *"more than one requirements
+file detected"* warning because it also counts `pyproject.toml` — this is
+harmless and unavoidable; the logs confirm it uses `uv-sync with uv.lock`. To add
+a dependency: `uv add <lib>`, commit, push.
 
 ## Docs style
 
