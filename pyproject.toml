@@ -1,6 +1,6 @@
 [project]
 name = "strapp"
-version = "0.3.2"
+version = "0.3.3"
 description = "A beginner-friendly Streamlit app that builds ASCE 7-22 structural load combinations."
 readme = "README.md"
 license = "MIT"
