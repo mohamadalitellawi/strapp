@@ -242,3 +242,10 @@ git push origin v0.1.0  # send the tag to GitHub
 You now know the complete, modern workflow: build a project, keep it clean, test
 it, package it, put it on GitHub the professional way, and ship it online.
 Practice this loop a few times and it will become second nature. Well done! 🏗️
+
+## What comes after your first release?
+
+Once you have shipped `v0.1.0`, you will want to fix bugs and add features
+without breaking anything. There is one more hands-on chapter that shows you the
+repeatable loop — including the one sync step everyone forgets:
+[Step 9 — Life after your first release](09_after_release_workflow.md).
