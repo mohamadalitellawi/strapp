@@ -101,22 +101,50 @@ git branch -D bugfix/snow-load-factor      # capital -D after a squash merge
 
 ## 9.3 Ship the next release
 
-When `develop` has the fixes and features you want, and you have tested it,
-release it exactly like the first time (Section 8.6):
+When `develop` has the fixes and features you want, and you have tested it, you
+release it. There are two small steps: **raise the version number**, then merge
+`develop` into `main`.
+
+#### Step A — raise the version number (on `develop` first)
+
+Pick which part to raise (see the table below), then let uv do it. Because this
+is a change to `develop`, do it on a short branch and merge it in — the same
+loop as Section 9.2:
 
 ```bash
-# Pull request from develop into the protected main branch
-gh pr create --base main --head develop --title "Release v0.1.1" --fill
+git switch develop && git pull
+git switch -c chore/bump-version
+uv version --bump minor     # or patch / major — see the table below
+git add pyproject.toml uv.lock
+git commit -m "chore: bump version"
+git push -u origin chore/bump-version
+gh pr create --base develop --fill
+gh pr merge --squash --delete-branch
+```
+
+> **Why `uv version --bump` and not editing the number by hand?** It raises the
+> number in `pyproject.toml` **and** updates `uv.lock` in one go, so the two can
+> never drift apart. Our code reads the version back from `pyproject.toml`
+> automatically (see Section 5.3), so there is nothing else to change. Add
+> `--dry-run` to preview without writing.
+
+#### Step B — merge `develop` into `main` and tag
+
+Now release it exactly like the first time (Section 8.6):
+
+```bash
+git switch develop && git pull   # get the version bump you just merged
+gh pr create --base main --head develop --title "Release v0.2.0" --fill
 ```
 
 Merge it on GitHub with **"Create a merge commit"** — **not** squash. Then tag
-the new version:
+the new version (the tag should match the number `uv version` set):
 
 ```bash
 git switch main
 git pull
-git tag v0.1.1            # the new version label
-git push origin v0.1.1    # send the tag to GitHub
+git tag v0.2.0            # the new version label
+git push origin v0.2.0    # send the tag to GitHub
 ```
 
 Finally, **sync `develop` again** (Section 9.1), because `main` now has a new
@@ -125,13 +153,13 @@ release commit. Then you are ready for the next piece of work.
 ### What number do I give the release?
 
 Versions follow a simple pattern called **semver** (semantic versioning):
-`MAJOR.MINOR.PATCH`, like `0.1.1`.
+`MAJOR.MINOR.PATCH`, like `0.1.1`. The command in Step A picks the part for you:
 
-| What you shipped | Bump | Example |
-| ---------------- | ---- | ------- |
-| A bug fix only | the **PATCH** number | `v0.1.0` → `v0.1.1` |
-| A new feature (nothing broken for users) | the **MINOR** number, reset patch to 0 | `v0.1.1` → `v0.2.0` |
-| A big change that breaks how people use it | the **MAJOR** number | `v0.9.0` → `v1.0.0` |
+| What you shipped | Command | Example |
+| ---------------- | ------- | ------- |
+| A bug fix only | `uv version --bump patch` | `0.1.0` → `0.1.1` |
+| A new feature (nothing broken for users) | `uv version --bump minor` | `0.1.1` → `0.2.0` |
+| A big change that breaks how people use it | `uv version --bump major` | `0.9.0` → `1.0.0` |
 
 > While you are still below `1.0.0`, the project is saying "early days, things
 > may still change." That is perfectly normal for a learning project.
@@ -159,7 +187,8 @@ git push -u origin hotfix/crash-on-empty-table
 gh pr create --base main --head hotfix/crash-on-empty-table --fill
 ```
 
-Merge it into `main` with a **merge commit**, then **tag a patch version**
+Bump the version with `uv version --bump patch` as part of the fix, merge it
+into `main` with a **merge commit**, then **tag that patch version**
 (e.g. `v0.1.2`). Last and most important: **merge `main` back into `develop`**
 (Section 9.1) so your fix is not lost the next time you release.
 
@@ -175,6 +204,7 @@ Merge it into `main` with a **merge commit**, then **tag a patch version**
 | Start a bug fix | `git switch develop && git pull && git switch -c bugfix/xxx` |
 | Start a feature | `git switch develop && git pull && git switch -c feature/xxx` |
 | Merge my PR into develop | `gh pr merge --squash --delete-branch` |
+| Raise the version number | `uv version --bump patch` (or `minor` / `major`) |
 | Cut a release | `gh pr create --base main --head develop --title "Release vX.Y.Z" --fill` |
 | Tag the release | `git switch main && git pull && git tag vX.Y.Z && git push origin vX.Y.Z` |
 
@@ -183,8 +213,9 @@ Merge it into `main` with a **merge commit**, then **tag a patch version**
 1. **Sync** `develop` with `main` right after every release.
 2. **Branch** from `develop` for each fix or feature.
 3. **Squash-merge** that branch back into `develop`.
-4. **Release** by merging `develop` into `main` with a merge commit, then **tag**.
-5. **Sync** again. Repeat forever.
+4. **Bump** the version with `uv version --bump` (on `develop`), ready to release.
+5. **Release** by merging `develop` into `main` with a merge commit, then **tag**.
+6. **Sync** again. Repeat forever.
 
 That five-beat rhythm is the whole professional life of a project. Practice it a
 few times on this repo and it will feel automatic. Well done! 🏗️

@@ -8,6 +8,8 @@ The pieces:
 * :mod:`strapp.app` - the Streamlit web page.
 """
 
+from importlib.metadata import version
+
 from .combinations import (
     Combination,
     asd_combinations,
@@ -18,7 +20,9 @@ from .combinations import (
 )
 from .simulation import SimulationResult, simulate
 
-__version__ = "0.1.2"
+# Read the version from the installed package metadata so pyproject.toml stays
+# the single source of truth. Bump it with `uv version --bump patch|minor|major`.
+__version__ = version("strapp")
 
 __all__ = [
     "Combination",
